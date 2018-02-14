@@ -1,0 +1,115 @@
+group 'com.lipnican'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    ext.kotlin_version = '1.2.21'
+    ext.web_dir = 'web'
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+apply plugin: 'kotlin2js'
+apply plugin: 'kotlin-dce-js'
+
+compileKotlin2Js {
+    kotlinOptions.sourceMap = true
+    kotlinOptions.moduleKind = 'umd'
+    kotlinOptions.main = "call"
+}
+
+
+sourceSets {
+    main.kotlin.srcDirs += "src/main/kotlin"
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+}
+
+
+clean.doFirst() {
+    delete("${web_dir}")
+}
+
+build.doLast() {
+    // Copy kotlin.js and kotlin-meta.js from jar into web directory
+    configurations.compile.each { File file ->
+        copy {
+            includeEmptyDirs = false
+
+            from zipTree(file.absolutePath)
+            into "${projectDir}/${web_dir}/lib"
+            include { fileTreeElement ->
+                def path = fileTreeElement.path
+                path.endsWith(".js") && (path.startsWith("META-INF/resources/") || !path.startsWith("META-INF/"))
+            }
+        }
+    }
+
+    // Unpack build contents
+    // TODO Remove this step when a CDN link is available.
+    copy {
+        File artifact = new File("build/libs/${project.name}-${project.version}.jar")
+        includeEmptyDirs = false
+
+        from zipTree(artifact)
+        into "${web_dir}"
+        include { fileTreeElement ->
+            def path = fileTreeElement.path
+            !(path.startsWith("META-INF/") || path.startsWith("${project.name}"))
+        }
+    }
+
+    // Copy scripts to web directory
+    copy {
+        includeEmptyDirs = false
+        from new File("build/classes/main")
+        into "${web_dir}/lib"
+    }
+
+    copy {
+        includeEmptyDirs = false
+        from new File("build/classes/test")
+        into "${web_dir}/lib"
+    }
+
+    copy {
+        includeEmptyDirs = false
+        from new File("build/resources/test")
+        into "${web_dir}"
+    }
+
+    copy {
+        from new File("src/index.html")
+        into "${web_dir}"
+    }
+
+    copy {
+        from new File("build/kotlin-js-min/main/frontend.js")
+        into "${web_dir}/lib"
+    }
+
+    copy {
+        from new File("build/kotlin-js-min/main/frontend.js.map")
+        into "${web_dir}/lib"
+    }
+
+    copy {
+        from new File("build/kotlin-js-min/main/kotlin.js")
+        into "${web_dir}/lib"
+    }
+
+    copy {
+        from new File("build/kotlin-js-min/main/kotlin.js.map")
+        into "${web_dir}/lib"
+    }
+
+}
