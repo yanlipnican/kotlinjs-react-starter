@@ -12,8 +12,10 @@ buildscript {
     }
 }
 
+apply plugin: 'java'
 apply plugin: 'kotlin2js'
 apply plugin: 'kotlin-dce-js'
+apply plugin: 'idea'
 
 compileKotlin2Js {
     kotlinOptions.sourceMap = true
