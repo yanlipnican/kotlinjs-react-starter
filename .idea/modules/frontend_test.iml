@@ -33,6 +33,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="frontend_main" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-js:1.2.21" level="project" />
+    <orderEntry type="library" name="Gradle: com.github.brianegan.bansa:bansa:1.0.0-beta" level="project" />
   </component>
   <component name="TestModuleProperties" production-module="frontend_main" />
 </module>
