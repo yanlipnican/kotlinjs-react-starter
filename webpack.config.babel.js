@@ -1,13 +1,13 @@
-import webpack from 'webpack'
 import path from 'path'
 
 import UglifyJSPlugin from 'uglifyjs-webpack-plugin'
 
 export default {
     resolve: {
-        alias: {
-            kotlin: path.resolve(__dirname, './web/lib/kotlin.js'),
-        },
+        modules: [
+            path.resolve(__dirname, './node_modules'),
+            path.resolve(__dirname, './build/kotlin-js-min/main'),
+        ],
     },
 
     devServer: {
@@ -16,7 +16,7 @@ export default {
         port: 9000
     },
 
-    entry: "./web/lib/frontend.js",
+    entry: path.resolve(__dirname, './build/kotlin-js-min/main/main.js'),
     output: {
         filename: "./web/lib/bundle.js",
     },

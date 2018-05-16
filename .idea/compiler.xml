@@ -4,6 +4,8 @@
     <bytecodeTargetLevel>
       <module name="frontend_main" target="1.8" />
       <module name="frontend_test" target="1.8" />
+      <module name="kotlinjs-react-starter_main" target="1.8" />
+      <module name="kotlinjs-react-starter_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -19,6 +19,7 @@ compileKotlin2Js {
     kotlinOptions.sourceMap = true
     kotlinOptions.moduleKind = 'umd'
     kotlinOptions.main = "call"
+    kotlinOptions.outputFile = "${projectDir}/build/tmpbuild/main.js"
 }
 
 sourceSets {
@@ -27,89 +28,105 @@ sourceSets {
 
 repositories {
     mavenCentral()
-    maven { url "https://jitpack.io" }
+    jcenter()
+    maven {
+        url = "https://kotlin.bintray.com/kotlin-js-wrappers"
+    }
 }
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
-    compile 'com.github.brianegan.bansa:bansa:1.0.0-beta'
+    compile "org.jetbrains.kotlinx:kotlinx-html-js:0.6.8"
+    compile "org.jetbrains:kotlin-react:16.2.0-pre.19-kotlin-1.2.20"
+    compile "org.jetbrains:kotlin-extensions:1.0.0-pre.19-kotlin-1.2.20"
+    compile "org.jetbrains:kotlin-react-dom:16.2.0-pre.19-kotlin-1.2.20"
+
 }
 
 clean.doFirst() {
     delete("${web_dir}")
 }
 
-build.doLast() {
-    // Copy kotlin.js and kotlin-meta.js from jar into web directory
-    configurations.compile.each { File file ->
-        copy {
-            includeEmptyDirs = false
-
-            from zipTree(file.absolutePath)
-            into "${projectDir}/${web_dir}/lib"
-            include { fileTreeElement ->
-                def path = fileTreeElement.path
-                path.endsWith(".js") && (path.startsWith("META-INF/resources/") || !path.startsWith("META-INF/"))
-            }
-        }
-    }
-
-    // Unpack build contents
-    // TODO Remove this step when a CDN link is available.
-    copy {
-        File artifact = new File("build/libs/${project.name}-${project.version}.jar")
-        includeEmptyDirs = false
-
-        from zipTree(artifact)
-        into "${web_dir}"
-        include { fileTreeElement ->
-            def path = fileTreeElement.path
-            !(path.startsWith("META-INF/") || path.startsWith("${project.name}"))
-        }
-    }
-
-    // Copy scripts to web directory
-    copy {
-        includeEmptyDirs = false
-        from new File("build/classes/main")
-        into "${web_dir}/lib"
-    }
-
-    copy {
-        includeEmptyDirs = false
-        from new File("build/classes/test")
-        into "${web_dir}/lib"
-    }
-
-    copy {
-        includeEmptyDirs = false
-        from new File("build/resources/test")
-        into "${web_dir}"
-    }
-
-    copy {
-        from new File("src/index.html")
-        into "${web_dir}"
-    }
-
-    copy {
-        from new File("build/kotlin-js-min/main/frontend.js")
-        into "${web_dir}/lib"
-    }
-
-    copy {
-        from new File("build/kotlin-js-min/main/frontend.js.map")
-        into "${web_dir}/lib"
-    }
-
-    copy {
-        from new File("build/kotlin-js-min/main/kotlin.js")
-        into "${web_dir}/lib"
-    }
-
-    copy {
-        from new File("build/kotlin-js-min/main/kotlin.js.map")
-        into "${web_dir}/lib"
-    }
-
-}
+//build.doLast() {
+//    // Copy kotlin.js and kotlin-meta.js from jar into web directory
+//    configurations.compile.each { File file ->
+//        copy {
+//            includeEmptyDirs = false
+//
+//            from zipTree(file.absolutePath)
+//            into "${projectDir}/${web_dir}/lib"
+//            include { fileTreeElement ->
+//                def path = fileTreeElement.path
+//                path.endsWith(".js") && (path.startsWith("META-INF/resources/") || !path.startsWith("META-INF/"))
+//            }
+//        }
+//    }
+//
+//    // Unpack build contents
+//    // TODO Remove this step when a CDN link is available.
+//    copy {
+//        File artifact = new File("build/libs/${project.name}-${project.version}.jar")
+//        includeEmptyDirs = false
+//
+//        from zipTree(artifact)
+//        into "${web_dir}"
+//        include { fileTreeElement ->
+//            def path = fileTreeElement.path
+//            !(path.startsWith("META-INF/") || path.startsWith("${project.name}"))
+//        }
+//    }
+//
+//    // Copy scripts to web directory
+//    copy {
+//        includeEmptyDirs = false
+//        from new File("build/classes/main")
+//        into "${web_dir}/lib"
+//    }
+//
+//    copy {
+//        includeEmptyDirs = false
+//        from new File("build/classes/test")
+//        into "${web_dir}/lib"
+//    }
+//
+//    copy {
+//        includeEmptyDirs = false
+//        from new File("build/resources/test")
+//        into "${web_dir}"
+//    }
+//
+//    copy {
+//        from new File("src/index.html")
+//        into "${web_dir}"
+//    }
+//
+//    copy {
+//        from new File("build/kotlin-js-min/main/main.js")
+//        into "${web_dir}/lib"
+//    }
+//
+//    copy {
+//        from new File("build/kotlin-js-min/main/main.js.map")
+//        into "${web_dir}/lib"
+//    }
+//
+//    copy {
+//        from new File("build/kotlin-js-min/main/kotlin.js")
+//        into "${web_dir}/lib"
+//    }
+//
+//    copy {
+//        from new File("build/kotlin-js-min/main/kotlin.js.map")
+//        into "${web_dir}/lib"
+//    }
+//
+//    copy {
+//        from new File("build/kotlin-js-min/main/kotlin-extensions.js")
+//        into "${web_dir}/lib"
+//    }
+//
+//    copy {
+//        from new File("build/kotlin-js-min/main/kotlin-extensions.js")
+//        into "${web_dir}/lib"
+//    }
+//}

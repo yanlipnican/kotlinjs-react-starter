@@ -1,25 +1,41 @@
 package com.chatapp.frontend
 
-import com.brianegan.bansa.*
+import com.chatapp.frontend.lib.App
+import com.github.yanlipnican.redukt.Action
+import com.github.yanlipnican.redukt.ReduktProvider
+import com.github.yanlipnican.redukt.SingleStore
+import react.dom.render
+import kotlin.browser.document
 
-data class State(val count: Int = 0)
+data class AppState(val count: Int = 0)
 
-class MainReducer() : Reducer<State> {
+object INCREMENT: Action
+object DECREMENT: Action
 
-    object INCREMENT: Action
-    object DECREMENT: Action
+interface Getters
 
-    override fun reduce(state: State, action: Action): State {
-        return when (action) {
-            INCREMENT -> state.copy(count = state.count + 1)0
-            DECREMENT -> state.copy(count = state.count - 1)
-            else -> state
-        }
+private val getters = { state: AppState ->
+    object: Getters {
+
+    }
+}
+
+private val reducer = { state: AppState, getters: Getters, action: Action ->
+    when(action) {
+        is INCREMENT -> AppState(state.count + 1)
+        is DECREMENT -> AppState(state.count - 1)
+        else -> state
     }
 }
 
 fun main(args: Array<String>) {
 
-    val counterStore = BaseStore(State(), MainReducer());
+    val store = SingleStore(AppState(), getters, reducer)
+
+    val rootDiv = document.getElementById("react-root")
+
+    render(rootDiv) {
+        App(store)
+    }
 
 }

@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/frontend.iml" filepath="$PROJECT_DIR$/frontend.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/frontend_main.iml" filepath="$PROJECT_DIR$/.idea/modules/frontend_main.iml" group="frontend" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/frontend_test.iml" filepath="$PROJECT_DIR$/.idea/modules/frontend_test.iml" group="frontend" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kotlinjs-react-starter.iml" filepath="$PROJECT_DIR$/.idea/modules/kotlinjs-react-starter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kotlinjs-react-starter_main.iml" filepath="$PROJECT_DIR$/.idea/modules/kotlinjs-react-starter_main.iml" group="kotlinjs-react-starter" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kotlinjs-react-starter_test.iml" filepath="$PROJECT_DIR$/.idea/modules/kotlinjs-react-starter_test.iml" group="kotlinjs-react-starter" />
     </modules>
   </component>
 </project>
